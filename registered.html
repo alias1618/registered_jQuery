@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>註冊表單</title>
+    <style>
+        body {
+            background-color: #f2f3f5;
+        }
+
+        #container {
+            width: 800px;
+            margin: auto;
+            font-family: "微軟正黑體", "Helvetica", "Arial";
+            padding-top: 80px;
+        }
+
+        .input-style {
+            border-radius: 5px;
+            border: 1px solid gray;
+            font-size: 1.1em;
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .input-width {
+            width: 300px;
+            height: 40px;
+        }
+
+        #gender {
+            width: 324px;
+            height: 40px;
+        }
+
+        label {
+            width: 150px;
+            float: left;
+            font-size: 1.2em;
+            padding-top: 8px;
+        }
+
+        #submitButton {
+            background-color:black;
+            color: white;
+            width: 100px;
+            height: 40px;
+            float:right;
+            padding-right: 20px;
+            margin-right: 330px;
+        }
+
+        .span{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <form id="validationForm">
+
+            <label for="name">姓 名</label>
+            <input id="name" class="input-style input-width" type="text" name="name" placeholder="請輸入你的姓名"> <span id="errorname" class="span"></span>
+            <br>
+            <label for="email-address">電子郵箱</label>
+            <input id="email-address" class="input-style input-width" type="text" name="email"placeholder="請輸入你的email" > <span id="erroremail-address" class="span"></span>
+            <br>
+            <label for="gender">姓 別</label>
+            <select id="gender" name="gender" class="input-style">
+                <option value="male">男 性</option>
+                <option value="female">女 性</option>
+            </select>
+            <br>
+            <label for="password_1">密 碼</label>
+            <input id="password_1" class="input-style input-width" type="password" name="password_1" placeholder="密碼"> <span id="errorpassword_1" class="span"></span>
+            <br>
+            <label for="password_2">確認密碼</label>
+            <input id="password_2" class="input-style input-width" type="password" name="password_2" placeholder="確認密碼"> <span id="errorpassword_2" class="span"></span>
+            <br>
+            <label for="phone_number">手機號碼</label>
+            <input id="phone_number" type="text" class="input-style input-width" name="phone_number" placeholder="電話號碼"> <span id="errorphone_number" class="span"></span>
+            <br>
+            <button id="submitButton" class="input-style" type="submit" name="submit">提交</button>
+
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $("#validationForm").change(function(event) {
+
+            var errorMessage = "";
+
+            event.preventDefault();
+
+            var name = $("#name").val();
+            var email = $("#email-address").val();
+            var pass_1 = $("#password_1").val();
+            var pass_2 = $("#password_2").val();
+            var phone = $("#phone_number").val();
+
+            function isValidEmailAddress(emailAddress){
+
+                var pattern = /^\b[A-Z0-9-]+@[A-Z0-9]+\.com\b/i;
+
+                return pattern.test(emailAddress);
+            }
+
+            function isValidPassword(password){
+                var patternPassword = /^[A-Za-z0-9]{6,18}$/;
+                return patternPassword.test(password);
+            }
+
+            function isValidPhone(phoneNumber){
+                var patternPhone = /^[0]{1}[9]{1}[0-9]{8}$/;
+                return patternPhone.test(phoneNumber);
+            }
+
+            //驗證姓名
+            if(name == ""){
+                $("#errorname").html("姓名需要填寫");
+            }else {
+                $("#errorname").html("").css("color", "gray");
+            }
+
+            //驗證email
+            if(email == ""){
+                $("#erroremail-address").html("Email需要填寫");
+            } else if(!isValidEmailAddress(email)) {
+                $("#erroremail-address").html("請輸入正確email格式");
+            }else {
+                $("#erroremail-address").html("").css("color", "gray");
+            }
+
+            //驗證密碼
+            if(pass_1 == ""){
+                $("#errorpassword_1").html("密碼需要填寫");
+            }else if(!isValidPassword(pass_1)){
+                $("#errorpassword_1").html("密碼至少6位,最多18位");
+            }else {
+                $("#errorpassword_1").html("").css("color", "gray");
+            }
+
+            //驗證兩個密碼有沒有相同
+            if(pass_1 != pass_2){
+                $("#errorpassword_2").html("兩個密碼不同,請確認");
+            }else {
+                $("#errorpassword_2").html("").css("color", "gray");
+            }
+
+            //驗證電話號碼
+            if(phone_number == ""){
+                $("#errorphone_number").html("電話號碼需要填寫");
+            }else if(!isValidPhone(phone)){
+                $("#errorphone_number").html("電話號碼不符合台灣手機格式,09xx-xxx-xxx");
+            }else{
+                $("#errorphone_number").html("").css("color", "gray");
+            }
+        });
+
+
+    </script>
+</body>
+</html>
